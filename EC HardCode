@@ -2,3 +2,125 @@
 ;Faculdade: FEAP Avaré
 ;Curso: Engenharia da Computação
 ;Autor: Raphael Kayky Hata Torigoe
+
+section .bss
+    num1 resb 10      ; Variavel para armazenar o primeiro numero
+    num2 resb 10      ; Variavel para armazenar o segundo numero
+    result resb 10    ; Variavel para armazenar o resultado da soma
+
+section .text
+    global _start
+
+_start:
+    ; Imprimir mensagem para inserir o primeiro numero
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg1
+    mov edx, msg1_len
+    int 0x80
+
+    ;Leia o primeiro numero 
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, num1
+    mov edx, 10
+    int 0x80
+
+    ;Exibe a mensagem para inserir o segundo numero
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg2
+    mov edx, msg2_len
+    int 0x80
+
+    ;Leia o segundo numero 
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, num2
+    mov edx, 10
+    int 0x80
+
+    ;Converte os numeros de string para inteiros
+    mov eax, 0
+    mov ebx, num1
+    call str2int
+    mov [num1], eax
+
+    mov eax, 0
+    mov ebx, num2
+    call str2int
+    mov [num2], eax
+
+    ;Soma os numeros
+    mov eax, [num1]
+    add eax, [num2]
+    mov [result], eax
+
+    ;Exibe o resultado da soma
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, result
+    add edx, 10
+    int 0x80
+
+    ;Verifica se o resultado e maior ou igual a 7
+    mov eax, [result]
+    cmp eax, 7
+    jae resultado_maior_ou_igual_a_sete
+
+resultado_menor_que_sete:
+    ;Exibe uma mensagem se o resultado for menor que 7
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg3
+    mov edx, msg3_len
+    int 0x80
+
+    ;Sair do programa
+    jmp fim
+
+resultado_maior_ou_igual_a_sete:
+    ;Exibe uma mensagem se o resultado for maior ou igual a 7
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg4
+    mov edx, msg4_len
+    int 0x80
+
+fim:
+    ;Finaliza do programa
+    mov eax, 1
+    int 0x80
+
+;Funcao para converter uma string em um numero inteiro
+str2int:
+    xor eax, eax       ;Anula eax
+    xor ecx, ecx       ;Anula ecx
+    xor ebx, ebx       ;Anula ebx
+
+str2int_loop:
+    movzx edi, byte [ebx] ;Carrega proximo caracter da string 
+    cmp edi, 0x0        ;Verificar se chegamos ao final da string
+    je str2int_done    ;Se sim, terminar
+
+    sub edi, '0'        ;Converter de caractere para digito numerico
+    imul eax, eax, 10  ;Multiplicar o numero atual 
+    add eax, edi        ;Adiciona o digito ao numero
+    inc ebx            ;Avanca para o proximo caracter
+    jmp str2int_loop
+
+str2int_done:
+    ret
+
+section .data
+msg1 db "Digite o primeiro número: ", 0
+msg1_len equ $ - msg1
+
+msg2 db "Digite o segundo número: ", 0
+msg2_len equ $ - msg2
+
+msg3 db "A soma é menor que 7", 0
+msg3_len equ $ - msg3
+
+msg4 db "A soma é maior ou igual a 7", 0
+msg4_len equ $ - msg4
