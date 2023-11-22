@@ -4,15 +4,15 @@
 ;Autor: Raphael Kayky Hata Torigoe
 
 section .bss
-    num1 resb 10      ; Variavel para armazenar o primeiro numero
-    num2 resb 10      ; Variavel para armazenar o segundo numero
-    result resb 10    ; Variavel para armazenar o resultado da soma
+    num1 resb 10      ;Variavel para armazenar o primeiro numero
+    num2 resb 10      ;Variavel para armazenar o segundo numero
+    result resb 10    ;Variavel para armazenar o resultado da soma
 
 section .text
     global _start
 
 _start:
-    ; Imprimir mensagem para inserir o primeiro numero
+    ;Exibe mensagem para inserir o primeiro numero
     mov eax, 4
     mov ebx, 1
     mov ecx, msg1
