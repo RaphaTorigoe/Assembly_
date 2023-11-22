@@ -36,7 +36,7 @@ _start:
     mov ecx, nome
     int 0x80
 
-    ;Termina o programa
+    ;Finaliza o programa
     mov eax, 1
     xor ebx, ebx
     int 0x80
