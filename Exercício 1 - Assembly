@@ -1,0 +1,44 @@
+;Exercício 1 - Assembly 
+;Curso: Engenharia da Computação
+;Autor: Raphael Kayky Hata Torigoe
+
+section .data
+    msg db 'Digite seu nome'
+    saudacoes db 'Saudacoes,'
+    nome db 20, 0
+
+section .text
+    global _start
+_start:
+    ;Exibe a mensagem 
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg
+    mov edx, 15
+    int 0x80
+
+    ;Leia o nome do usuario
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, nome
+    mov edx, 20
+    int 0x80
+
+    ;Imprime a saudacao e o nome do usuario
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, saudacoes
+    mov edx, 10
+    int 0x80
+
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, nome
+    int 0x80
+
+    ;Termina o programa
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
+
+
