@@ -1,3 +1,71 @@
 ;Exercício 1 - Assembly 
 ;Curso: Engenharia da Computação
 ;Autor: Raphael Kayky Hata Torigoe
+
+section .data
+    prompt1 db 'Digite o primeiro numero', 0
+    prompt2 db 'Digite o segundo numero', 0
+    result db 'Resultado da media: ', 0
+    format db '%d', 0
+
+section .bss
+    num1 resb 4
+    num2 resb 4
+    avg resb 4
+
+section .text
+    global main
+    extern printf, scanf
+
+main:
+    ;Solicita o primeiro numero
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, prompt1
+    mov edx, 24
+    int 0x80
+
+    ;Leia o primeiro numero
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, num1
+    mov edx, 4
+    int 0x80
+
+    ;Solicita o segundo numero
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, prompt2
+    mov edx, 23
+    int 0x80
+
+    ;Leia o segundo numero
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, num2
+    mov edx, 4
+    int 0x80
+
+    ;Calcula a media
+    mov eax, [num1]
+    add eax, [num2]
+    shr eax, 1
+    mov [avg], eax
+
+    ;Mostra o resultado
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, result
+    mov edx, 20
+    int 0x80
+
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, avg
+    mov edx, 4
+    int 0x80
+
+    ;Finaliza o programa
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
